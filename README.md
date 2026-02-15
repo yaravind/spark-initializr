@@ -4,7 +4,7 @@ Maven archetype that generates a minimal Spark + Delta app template compatible w
 
 - Microsoft Fabric Runtime 1.3 (Spark 3.5.x / Delta 3.2.x / Scala 2.12 / Java 11)
 - Microsoft Fabric Runtime 2.0 (Spark 4.0.x / Delta 4.0.x / Scala 2.13 / Java 21)
-- Databricks Runtime 18.0 (Spark 4.1.0 / Delta 4.0.0 / Scala 2.13 / Java 21)
+- Databricks Runtime 18.0 (Spark 4.1.0 / Delta 4.0.1 / Scala 2.13 / Java 21)
 - Azure Synapse Spark 3.4 (Spark 3.4.1 / Delta 2.4.0 / Scala 2.12 / Java 11)
 
 ## Quick start

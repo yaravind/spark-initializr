@@ -300,7 +300,7 @@
       </activation>
       <properties>
         <spark.version>4.1.0</spark.version>
-        <delta.version>4.0.0</delta.version>
+        <delta.version>4.0.1</delta.version>
         <delta.artifactId>delta-spark_${scala.binary.version}</delta.artifactId>
         <scala.binary.version>2.13</scala.binary.version>
         <scala.version>2.13.17</scala.version>
