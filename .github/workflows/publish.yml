@@ -1,0 +1,55 @@
+name: publish
+
+on:
+  workflow_dispatch:
+    inputs:
+      dryRun:
+        description: "If true, build only (no deploy)."
+        required: true
+        default: true
+        type: boolean
+      publishVersion:
+        description: "Optional version to publish (e.g. 0.1.0). If empty, uses pom.xml version as-is."
+        required: false
+        type: string
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  publish-github-packages:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 11
+          cache: maven
+          server-id: github
+          server-username: GITHUB_ACTOR
+          server-password: GITHUB_TOKEN
+
+      - name: Set version (optional)
+        if: ${{ inputs.publishVersion != '' }}
+        run: |
+          mvn -B -U versions:set -DnewVersion=${{ inputs.publishVersion }} -DgenerateBackupPoms=false
+
+      - name: Build (verify)
+        run: mvn -B -U clean verify
+
+      - name: Deploy to GitHub Packages (dryRun skip)
+        if: ${{ inputs.dryRun == false }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          owner=${{ github.repository_owner }}
+          repo=${{ github.event.repository.name }}
+          url=https://maven.pkg.github.com/${owner}/${repo}
+
+          mvn -B -U -DskipTests deploy \
+            -DaltDeploymentRepository=github::default::${url}
