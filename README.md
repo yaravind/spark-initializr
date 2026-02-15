@@ -4,7 +4,7 @@ Maven archetype that generates a minimal Spark + Delta app template compatible w
 
 - Microsoft Fabric Runtime 1.3 (Spark 3.5.x / Delta 3.2.x / Scala 2.12 / Java 11)
 - Microsoft Fabric Runtime 2.0 (Spark 4.0.x / Delta 4.0.x / Scala 2.13 / Java 21)
-- Databricks Runtime 15.4 LTS (Spark 3.5.0 / Delta 3.2.0 / Scala 2.12 / Java 8)
+- Databricks Runtime 18.0 (Spark 4.1.0 / Delta 4.0.0 / Scala 2.13 / Java 21)
 - Azure Synapse Spark 3.4 (Spark 3.4.1 / Delta 2.4.0 / Scala 2.12 / Java 11)
 
 ## Quick start
@@ -35,7 +35,7 @@ cd my-spark-app
 mvn -B -Druntime=fabric13 test
 ```
 
-Supported values for `runtime`: `fabric13`, `fabric20`, `databricks154`, `synapse34`.
+Supported values for `runtime`: `fabric13`, `fabric20`, `databricks180`, `synapse34`.
 
 ## Step-by-step: usage by runtime
 
@@ -45,7 +45,7 @@ Supported values for `runtime`: `fabric13`, `fabric20`, `databricks154`, `synaps
 - JDK per runtime:
   - `fabric13`: Java 11+
   - `fabric20`: Java 21+
-  - `databricks154`: Java 8+
+  - `databricks180`: Java 21+
   - `synapse34`: Java 11+
 
 ### 1) Install the archetype locally (one-time)
@@ -104,13 +104,13 @@ mvn -B -Druntime=fabric20 test
 mvn -B -Druntime=fabric20 package
 ```
 
-#### Databricks Runtime 15.4 LTS (`databricks154`)
+#### Databricks Runtime 18.0 (`databricks180`)
 
-Make sure you are using Java 8+.
+Make sure you are using Java 21+.
 
 ```bash
-mvn -B -Druntime=databricks154 test
-mvn -B -Druntime=databricks154 package
+mvn -B -Druntime=databricks180 test
+mvn -B -Druntime=databricks180 package
 ```
 
 #### Synapse Spark 3.4 (`synapse34`)

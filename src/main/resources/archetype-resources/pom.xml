@@ -291,21 +291,21 @@
     </profile>
 
     <profile>
-      <id>rt-databricks154</id>
+      <id>rt-databricks180</id>
       <activation>
         <property>
           <name>runtime</name>
-          <value>databricks154</value>
+          <value>databricks180</value>
         </property>
       </activation>
       <properties>
-        <spark.version>3.5.0</spark.version>
-        <delta.version>3.2.0</delta.version>
+        <spark.version>4.1.0</spark.version>
+        <delta.version>4.0.0</delta.version>
         <delta.artifactId>delta-spark_${scala.binary.version}</delta.artifactId>
-        <scala.binary.version>2.12</scala.binary.version>
-        <scala.version>2.12.15</scala.version>
-        <maven.compiler.release>8</maven.compiler.release>
-        <required.java.version>[8,)</required.java.version>
+        <scala.binary.version>2.13</scala.binary.version>
+        <scala.version>2.13.16</scala.version>
+        <maven.compiler.release>21</maven.compiler.release>
+        <required.java.version>[21,)</required.java.version>
       </properties>
       <build>
         <plugins>
@@ -321,7 +321,7 @@
                 </goals>
                 <configuration>
                   <sources>
-                    <source>src/main/scala-databricks154</source>
+                    <source>src/main/scala-databricks180</source>
                   </sources>
                 </configuration>
               </execution>

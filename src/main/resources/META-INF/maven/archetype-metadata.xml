@@ -42,7 +42,7 @@
     </fileSet>
 
     <fileSet filtered="true" packaged="true" encoding="UTF-8">
-      <directory>src/main/scala-databricks154</directory>
+      <directory>src/main/scala-databricks180</directory>
       <includes>
         <include>**/*.scala</include>
       </includes>

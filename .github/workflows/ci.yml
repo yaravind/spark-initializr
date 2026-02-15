@@ -16,8 +16,8 @@ jobs:
             java: 11
           - it: synapse34
             java: 11
-          - it: databricks154
-            java: 8
+          - it: databricks180
+            java: 21
           - it: fabric20
             java: 21
 
