@@ -51,6 +51,30 @@ jobs:
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
           gpg-passphrase: ${{ secrets.GPG_PASSPHRASE }}
 
+      - name: Validate publish credentials (dryRun skip)
+        if: ${{ inputs.dryRun == false }}
+        shell: bash
+        run: |
+          missing=0
+
+          if [[ -z "${CENTRAL_USERNAME:-}" ]]; then
+            echo "::error::Missing CENTRAL_USERNAME secret (Sonatype Central Portal user token username)"
+            missing=1
+          fi
+          if [[ -z "${CENTRAL_PASSWORD:-}" ]]; then
+            echo "::error::Missing CENTRAL_PASSWORD secret (Sonatype Central Portal user token password)"
+            missing=1
+          fi
+          if [[ -z "${GPG_PASSPHRASE:-}" ]]; then
+            echo "::error::Missing GPG_PASSPHRASE secret"
+            missing=1
+          fi
+
+          if [[ "$missing" -ne 0 ]]; then
+            echo "::error::Required secrets are missing; aborting publish."
+            exit 1
+          fi
+
       - name: Configure Maven servers (central + github)
         run: |
           mkdir -p ~/.m2
