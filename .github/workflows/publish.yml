@@ -51,6 +51,16 @@ jobs:
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
           gpg-passphrase: ${{ secrets.GPG_PASSPHRASE }}
 
+      - name: Show GPG signing key fingerprints (dryRun skip)
+        if: ${{ inputs.dryRun == false }}
+        shell: bash
+        run: |
+          echo "Secret keys present in the runner keychain:"
+          gpg --batch --list-secret-keys --keyid-format=long || true
+          echo
+          echo "Key fingerprints (upload the matching public key to a supported keyserver for Maven Central):"
+          gpg --batch --list-secret-keys --with-colons | awk -F: '$1=="fpr"{print $10}'
+
       - name: Validate publish credentials (dryRun skip)
         if: ${{ inputs.dryRun == false }}
         shell: bash

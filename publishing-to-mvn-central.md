@@ -73,21 +73,40 @@ You need a **user token** from Sonatype Central Portal.
 
 In the Central Portal UI, generate a User Token and store:
 
-- the token “username” in `CENTRAL_USERNAME`
-- the token “password” in `CENTRAL_PASSWORD`
+- the token “username” in `OSSRH_USERNAME`
+- the token “password” in `OSSRH_PASSWORD`
+
+Note: despite the names, these secrets are used as **Central Portal user token** credentials (not legacy OSSRH).
 
 ## Configure GitHub repository secrets
 
 Add these in:
 
-**GitHub repo → Settings → Secrets and variables → Actions → New repository secret**
+Path: GitHub repo → Settings → Secrets and variables → Actions → New repository secret
 
 ### Required for Maven Central
 
-- `CENTRAL_USERNAME`
-- `CENTRAL_PASSWORD`
+- `OSSRH_USERNAME`
+- `OSSRH_PASSWORD`
 - `GPG_PRIVATE_KEY` (the full armored private key block)
 - `GPG_PASSPHRASE` (the passphrase you set when creating the key)
+
+## Publish your public key (one-time)
+
+Maven Central validates your `.asc` signatures by looking up your **public** key on supported PGP keyservers.
+
+Export your public key:
+
+```bash
+gpg --armor --export <KEYID>
+```
+
+Then upload it to a supported keyserver (for example):
+
+- `https://keys.openpgp.org/` (often requires email verification)
+- `https://keyserver.ubuntu.com/`
+
+After uploading, wait for propagation and retry the `publish` workflow.
 
 ### Used for GitHub Packages
 
@@ -98,7 +117,7 @@ Add these in:
 
 Go to:
 
-**Actions → publish → Run workflow**
+Path: Actions → publish → Run workflow
 
 Recommended sequence:
 
