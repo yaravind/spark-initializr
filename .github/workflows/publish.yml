@@ -1,10 +1,10 @@
 ####################################################
-# Intent: Manually publish artifacts to Sonatype (OSSRH) for Maven Central
+# Intent: Manually publish artifacts to Maven Central (via Sonatype OSSRH) and GitHub Packages
 # - Triggers on: workflow_dispatch only
 # - Inputs: dryRun (build-only) and optional publishVersion override
-# - Runs: Maven verify, then (if not dryRun) deploy + close/release staging
+# - Runs: Maven verify, then (if not dryRun) deploy to both targets
 #
-# Required repo secrets:
+# Required repo secrets (for Maven Central):
 # - OSSRH_USERNAME: Sonatype username
 # - OSSRH_PASSWORD: Sonatype password/token
 # - GPG_PRIVATE_KEY: ASCII-armored private key used for signing
@@ -28,9 +28,10 @@ on:
 
 permissions:
   contents: read
+  packages: write
 
 jobs:
-  publish-maven-central:
+  publish:
     runs-on: ubuntu-latest
 
     steps:
@@ -64,3 +65,15 @@ jobs:
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
         run: |
           mvn -B -U -DskipTests -Prelease -Dgpg.skip=false -Dgpg.passphrase="$GPG_PASSPHRASE" deploy
+
+      - name: Deploy to GitHub Packages (dryRun skip)
+        if: ${{ inputs.dryRun == false }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          owner=${{ github.repository_owner }}
+          repo=${{ github.event.repository.name }}
+          url=https://maven.pkg.github.com/${owner}/${repo}
+
+          mvn -B -U -DskipTests deploy \
+            -DaltDeploymentRepository=github::default::${url}
