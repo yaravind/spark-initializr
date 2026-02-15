@@ -5,8 +5,8 @@
 # - Runs: Maven verify, then (if not dryRun) deploy to both targets
 #
 # Required repo secrets (for Maven Central):
-# - CENTRAL_USERNAME: Sonatype Central Portal user token username
-# - CENTRAL_PASSWORD: Sonatype Central Portal user token password
+# - OSSRH_USERNAME: Sonatype Central Portal user token username
+# - OSSRH_PASSWORD: Sonatype Central Portal user token password
 # - GPG_PRIVATE_KEY: ASCII-armored private key used for signing
 # - GPG_PASSPHRASE: passphrase for the private key
 ####################################################
@@ -34,8 +34,8 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     env:
-      CENTRAL_USERNAME: ${{ secrets.CENTRAL_USERNAME }}
-      CENTRAL_PASSWORD: ${{ secrets.CENTRAL_PASSWORD }}
+      CENTRAL_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+      CENTRAL_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
       GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
