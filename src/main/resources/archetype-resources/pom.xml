@@ -299,11 +299,11 @@
         </property>
       </activation>
       <properties>
-        <spark.version>4.1.0</spark.version>
+        <spark.version>4.0.0</spark.version>
         <delta.version>4.0.1</delta.version>
         <delta.artifactId>delta-spark_${scala.binary.version}</delta.artifactId>
         <scala.binary.version>2.13</scala.binary.version>
-        <scala.version>2.13.17</scala.version>
+        <scala.version>2.13.16</scala.version>
         <maven.compiler.release>21</maven.compiler.release>
         <required.java.version>[21,)</required.java.version>
       </properties>

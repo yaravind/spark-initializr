@@ -8,7 +8,7 @@ Select a runtime with `-Druntime=...`.
 
 - `fabric13` (Spark 3.5.5 / Delta 3.2.0 / Scala 2.12.18 / Java 11)
 - `fabric20` (Spark 4.0.0 / Delta 4.0.0 / Scala 2.13.16 / Java 21)
-- `databricks180` (Spark 4.1.0 / Delta 4.0.1 / Scala 2.13.17 / Java 21)
+- `databricks180` (Spark 4.0.0 / Delta 4.0.1 / Scala 2.13.16 / Java 21)
 - `synapse34` (Spark 3.4.1 / Delta 2.4.0 / Scala 2.12.17 / Java 11)
 
 Examples:
