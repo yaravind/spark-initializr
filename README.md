@@ -130,4 +130,6 @@ mvn -B -Druntime=synapse34 package
 
 ## License
 
-Apache-2.0. See [LICENSE](LICENSE).
+Licensed under the Apache License, Version 2.0 (Apache-2.0).
+
+Provided on an "AS IS" basis, without warranties or conditions of any kind, and the author(s) are not liable for any damages arising from its use.
