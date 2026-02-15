@@ -13,6 +13,12 @@ Maven Central publishing requires **signed artifacts** (PGP/GPG).
 
 ## Prerequisites
 
+- Install GnuPG locally (macOS):
+
+```bash
+brew install gnupg
+```
+
 - You have (or have created) a **Sonatype OSSRH account** for `https://s01.oss.sonatype.org/`.
 - Your groupId (`io.github.yaravind`) is approved/verified in Sonatype.
 - You have generated a **PGP key** for signing.
