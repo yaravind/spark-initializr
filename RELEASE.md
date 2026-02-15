@@ -9,18 +9,18 @@ flowchart TD
    B -->|fail| B1[Fix and push updates]
    B1 --> B
 
-   C --> D[Run release workflow (dryRun=true)]
+   C --> D[Run release workflow: dryRun=true]
    D -->|pass| E{Pick version}
    D -->|fail| D1[Fix issues on main]
    D1 --> A
 
-   E --> F[Run release workflow (dryRun=false)\ncreates vX.Y.Z tag]
-   F --> G[Run publish workflow (dryRun=true, publishVersion=X.Y.Z)]
-   G -->|pass| H[Run publish workflow (dryRun=false, publishVersion=X.Y.Z)]
+   E --> F[Run release workflow: dryRun=false<br/>creates vX.Y.Z tag]
+   F --> G[Run publish workflow: dryRun=true<br/>publishVersion=X.Y.Z]
+   G -->|pass| H[Run publish workflow: dryRun=false<br/>publishVersion=X.Y.Z]
    G -->|fail| G1[Fix issues and re-run publish dry run]
    G1 --> G
 
-   H --> I[Release complete]\n
+   H --> I[Release complete]
 ```
 
 This repo uses GitHub Actions workflows to validate, tag, and publish an official release.
