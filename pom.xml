@@ -12,6 +12,14 @@
   <name>spark-multi-runtime-archetype</name>
   <description>Maven archetype for Spark apps targeting Fabric/Databricks/Synapse runtimes</description>
 
+  <licenses>
+    <license>
+      <name>Apache License, Version 2.0</name>
+      <url>https://www.apache.org/licenses/LICENSE-2.0</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.release>11</maven.compiler.release>

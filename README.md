@@ -127,3 +127,7 @@ mvn -B -Druntime=synapse34 package
 ### Notes
 
 - Spark/Delta dependencies in the generated app are `provided` (they’re supplied by the cluster runtime). The `*-all.jar` produced by the shade plugin is mainly useful for bundling your own dependencies, not Spark itself.
+
+## License
+
+Apache-2.0. See [LICENSE](LICENSE).
