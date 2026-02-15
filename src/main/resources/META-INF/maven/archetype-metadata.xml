@@ -14,6 +14,12 @@
       </includes>
     </fileSet>
 
+    <fileSet filtered="false" encoding="UTF-8">
+      <includes>
+        <include>.mvn/**</include>
+      </includes>
+    </fileSet>
+
     <fileSet filtered="true" packaged="true" encoding="UTF-8">
       <directory>src/main/scala-common</directory>
       <includes>

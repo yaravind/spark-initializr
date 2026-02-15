@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.2.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.2.0 https://maven.apache.org/xsd/settings-1.2.0.xsd">
+
+  <!--
+    Repository runbook:
+
+    - Local Maven repository (~/.m2/repository) is used automatically by Maven.
+    - This file is included for convenience when you need to add extra repositories (e.g., GitHub Packages, Sonatype).
+    - To use it explicitly:
+        mvn -s .mvn/settings.xml <goals>
+
+    IMPORTANT:
+    - Do not commit credentials. Use env vars or your user-level ~/.m2/settings.xml.
+  -->
+
+  <!-- "M2" local repository (shown explicitly; Maven defaults to this). -->
+  <localRepository>${user.home}/.m2/repository</localRepository>
+
+  <servers>
+    <!-- For GitHub Packages (optional). Requires token with read:packages for local use. -->
+    <server>
+      <id>github</id>
+      <username>${env.GITHUB_ACTOR}</username>
+      <password>${env.GITHUB_TOKEN}</password>
+    </server>
+  </servers>
+
+  <profiles>
+    <!-- Default: Maven Central + Sonatype public group (requested). -->
+    <profile>
+      <id>repos-default</id>
+      <repositories>
+        <repository>
+          <id>central</id>
+          <url>https://repo.maven.apache.org/maven2</url>
+          <releases><enabled>true</enabled></releases>
+          <snapshots><enabled>false</enabled></snapshots>
+        </repository>
+        <repository>
+          <id>sonatype-public</id>
+          <url>https://oss.sonatype.org/content/groups/public/</url>
+          <releases><enabled>true</enabled></releases>
+          <snapshots><enabled>true</enabled></snapshots>
+        </repository>
+      </repositories>
+      <pluginRepositories>
+        <pluginRepository>
+          <id>central</id>
+          <url>https://repo.maven.apache.org/maven2</url>
+          <releases><enabled>true</enabled></releases>
+          <snapshots><enabled>false</enabled></snapshots>
+        </pluginRepository>
+        <pluginRepository>
+          <id>sonatype-public</id>
+          <url>https://oss.sonatype.org/content/groups/public/</url>
+          <releases><enabled>true</enabled></releases>
+          <snapshots><enabled>true</enabled></snapshots>
+        </pluginRepository>
+      </pluginRepositories>
+    </profile>
+
+    <!-- Sonatype snapshots (optional, when consuming snapshot builds). -->
+    <profile>
+      <id>sonatype-snapshots</id>
+      <repositories>
+        <repository>
+          <id>sonatype-snapshots</id>
+          <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+          <releases><enabled>false</enabled></releases>
+          <snapshots><enabled>true</enabled></snapshots>
+        </repository>
+      </repositories>
+    </profile>
+
+    <!-- GitHub Packages (optional). Fill in github.owner/github.repo and enable the profile. -->
+    <profile>
+      <id>github-packages</id>
+      <properties>
+        <!-- Example:
+             <github.owner>The-Coca-Cola-Company</github.owner>
+             <github.repo>some-maven-repo</github.repo>
+        -->
+        <github.owner>OWNER</github.owner>
+        <github.repo>REPO</github.repo>
+      </properties>
+      <repositories>
+        <repository>
+          <id>github</id>
+          <url>https://maven.pkg.github.com/${github.owner}/${github.repo}</url>
+          <releases><enabled>true</enabled></releases>
+          <snapshots><enabled>true</enabled></snapshots>
+        </repository>
+      </repositories>
+    </profile>
+  </profiles>
+
+  <activeProfiles>
+    <activeProfile>repos-default</activeProfile>
+  </activeProfiles>
+
+</settings>

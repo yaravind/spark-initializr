@@ -18,6 +18,17 @@ mvn -B -Druntime=fabric13 test
 mvn -B -Druntime=synapse34 test
 ```
 
+## Maven settings (optional)
+
+This project includes an optional `.mvn/settings.xml` that references Maven Central, Sonatype public, and an (optional) GitHub Packages repository.
+
+- Use it explicitly: `mvn -s .mvn/settings.xml test`
+- GitHub Packages requires credentials via environment variables (example):
+  - `GITHUB_ACTOR`
+  - `GITHUB_TOKEN` (token needs `read:packages` for local use)
+
+Do not commit credentials into the project.
+
 ## Source sets
 
 This template generates all runtime-specific source roots and uses Maven profiles to compile only the selected runtime.
