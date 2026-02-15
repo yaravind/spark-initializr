@@ -1,3 +1,10 @@
+#+#+#+#+#############################################
+# Intent: Continuous integration build + verification
+# - Triggers on: pull requests and pushes to main
+# - Runs: Maven clean verify plus archetype integration tests
+# - Matrix: validates multiple runtimes against their required Java versions
+#+#+#+#+#############################################
+
 name: ci
 
 on:

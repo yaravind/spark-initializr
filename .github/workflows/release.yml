@@ -1,3 +1,10 @@
+####################################################
+# Intent: Manually create a versioned release tag
+# - Triggers on: workflow_dispatch only
+# - Suggests: next semver from latest v* tag + file-change heuristics
+# - Runs: Maven verify, then (if not dryRun) creates and pushes an annotated git tag
+####################################################
+
 name: release
 
 on:

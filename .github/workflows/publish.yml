@@ -1,3 +1,10 @@
+####################################################
+# Intent: Manually publish artifacts to GitHub Packages
+# - Triggers on: workflow_dispatch only
+# - Inputs: dryRun (build-only) and optional publishVersion override
+# - Runs: Maven verify, then (if not dryRun) deploy to GitHub Packages
+####################################################
+
 name: publish
 
 on:
