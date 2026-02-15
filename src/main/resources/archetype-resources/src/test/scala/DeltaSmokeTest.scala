@@ -7,6 +7,7 @@ import java.nio.file.Files
 class DeltaSmokeTest extends AnyFunSuite {
   test("can write and read a Delta table") {
     val spark = SparkRuntime.session("delta-smoke-test")
+    SparkRuntime.printVersions()
 
     val tempDir = Files.createTempDirectory("delta-smoke-").toFile
     tempDir.deleteOnExit()
