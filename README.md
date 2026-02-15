@@ -7,6 +7,10 @@ Maven archetype that generates a minimal Spark + Delta app template compatible w
 - Databricks Runtime 18.0 (Spark 4.0.0 / Delta 4.0.1 / Scala 2.13 / Java 21)
 - Azure Synapse Spark 3.4 (Spark 3.4.1 / Delta 2.4.0 / Scala 2.12 / Java 11)
 
+## Release
+
+See [RELEASE.md](RELEASE.md) for the official release workflow order and flow diagram.
+
 ## Quick start
 
 Build the archetype:
