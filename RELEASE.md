@@ -1,5 +1,28 @@
 # Official release runbook
 
+## Flow diagram (Mermaid)
+
+```mermaid
+flowchart TD
+   A[Open PR targeting main] --> B[CI runs on PR]
+   B -->|pass| C[Merge PR to main]
+   B -->|fail| B1[Fix and push updates]
+   B1 --> B
+
+   C --> D[Run release workflow (dryRun=true)]
+   D -->|pass| E{Pick version}
+   D -->|fail| D1[Fix issues on main]
+   D1 --> A
+
+   E --> F[Run release workflow (dryRun=false)\ncreates vX.Y.Z tag]
+   F --> G[Run publish workflow (dryRun=true, publishVersion=X.Y.Z)]
+   G -->|pass| H[Run publish workflow (dryRun=false, publishVersion=X.Y.Z)]
+   G -->|fail| G1[Fix issues and re-run publish dry run]
+   G1 --> G
+
+   H --> I[Release complete]\n
+```
+
 This repo uses GitHub Actions workflows to validate, tag, and publish an official release.
 
 Workflows involved:
@@ -52,25 +75,3 @@ Workflows involved:
 - If you publish without `publishVersion`, the workflow deploys whatever version is currently in `pom.xml` (often `*-SNAPSHOT`). For an official release, set `publishVersion` to match the `vX.Y.Z` tag.
 - If a run fails, open the run logs in Actions and fix the repo, then re-run starting from **ci**.
 
-## Flow diagram (Mermaid)
-
-```mermaid
-flowchart TD
-  A[Open PR targeting main] --> B[CI runs on PR]
-  B -->|pass| C[Merge PR to main]
-  B -->|fail| B1[Fix and push updates]
-  B1 --> B
-
-  C --> D[Run release workflow (dryRun=true)]
-  D -->|pass| E{Pick version}
-  D -->|fail| D1[Fix issues on main]
-  D1 --> A
-
-  E --> F[Run release workflow (dryRun=false)\ncreates vX.Y.Z tag]
-  F --> G[Run publish workflow (dryRun=true, publishVersion=X.Y.Z)]
-  G -->|pass| H[Run publish workflow (dryRun=false, publishVersion=X.Y.Z)]
-  G -->|fail| G1[Fix issues and re-run publish dry run]
-  G1 --> G
-
-  H --> I[Release complete]\n
-```
