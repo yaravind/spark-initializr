@@ -1,8 +1,14 @@
 ####################################################
-# Intent: Manually publish artifacts to GitHub Packages
+# Intent: Manually publish artifacts to Sonatype (OSSRH) for Maven Central
 # - Triggers on: workflow_dispatch only
 # - Inputs: dryRun (build-only) and optional publishVersion override
-# - Runs: Maven verify, then (if not dryRun) deploy to GitHub Packages
+# - Runs: Maven verify, then (if not dryRun) deploy + close/release staging
+#
+# Required repo secrets:
+# - OSSRH_USERNAME: Sonatype username
+# - OSSRH_PASSWORD: Sonatype password/token
+# - GPG_PRIVATE_KEY: ASCII-armored private key used for signing
+# - GPG_PASSPHRASE: passphrase for the private key
 ####################################################
 
 name: publish
@@ -22,10 +28,9 @@ on:
 
 permissions:
   contents: read
-  packages: write
 
 jobs:
-  publish-github-packages:
+  publish-maven-central:
     runs-on: ubuntu-latest
 
     steps:
@@ -37,9 +42,11 @@ jobs:
           distribution: temurin
           java-version: 11
           cache: maven
-          server-id: github
-          server-username: GITHUB_ACTOR
-          server-password: GITHUB_TOKEN
+          server-id: ossrh
+          server-username: OSSRH_USERNAME
+          server-password: OSSRH_PASSWORD
+          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+          gpg-passphrase: ${{ secrets.GPG_PASSPHRASE }}
 
       - name: Set version (optional)
         if: ${{ inputs.publishVersion != '' }}
@@ -49,14 +56,11 @@ jobs:
       - name: Build (verify)
         run: mvn -B -U clean verify
 
-      - name: Deploy to GitHub Packages (dryRun skip)
+      - name: Deploy to Sonatype / Maven Central (dryRun skip)
         if: ${{ inputs.dryRun == false }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
         run: |
-          owner=${{ github.repository_owner }}
-          repo=${{ github.event.repository.name }}
-          url=https://maven.pkg.github.com/${owner}/${repo}
-
-          mvn -B -U -DskipTests deploy \
-            -DaltDeploymentRepository=github::default::${url}
+          mvn -B -U -DskipTests -Prelease -Dgpg.skip=false -Dgpg.passphrase="$GPG_PASSPHRASE" deploy
