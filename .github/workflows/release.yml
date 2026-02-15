@@ -1,0 +1,91 @@
+name: release
+
+on:
+  workflow_dispatch:
+    inputs:
+      dryRun:
+        description: "If true, build only (no deploy/tag)."
+        required: true
+        default: true
+        type: boolean
+      releaseVersion:
+        description: "Optional override (e.g. 1.2.3). If empty, use suggested bump from last tag."
+        required: false
+        type: string
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 11
+          cache: maven
+
+      - name: Suggest next version
+        id: suggest
+        shell: bash
+        run: |
+          set -euo pipefail
+          last_tag=$(git tag -l 'v*' --sort=-version:refname | head -n 1 || true)
+          if [[ -z "${last_tag}" ]]; then
+            echo "suggested=0.1.0" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          base=${last_tag#v}
+          IFS='.' read -r major minor patch <<< "$base"
+
+          changes=$(git diff --name-only "$last_tag"...HEAD)
+
+          bump="patch"
+          if echo "$changes" | grep -qE '^(pom\.xml|src/main/resources/META-INF/maven/archetype-metadata\.xml)$'; then
+            bump="minor"
+          fi
+          if echo "$changes" | grep -qE '^src/main/resources/META-INF/'; then
+            bump="major"
+          fi
+
+          case "$bump" in
+            major) major=$((major+1)); minor=0; patch=0;;
+            minor) minor=$((minor+1)); patch=0;;
+            patch) patch=$((patch+1));;
+          esac
+
+          echo "suggested=${major}.${minor}.${patch}" >> "$GITHUB_OUTPUT"
+
+      - name: Resolve release version
+        id: ver
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ -n "${{ inputs.releaseVersion }}" ]]; then
+            echo "release=${{ inputs.releaseVersion }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "release=${{ steps.suggest.outputs.suggested }}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build (verify)
+        run: mvn -B -U clean verify
+
+      - name: Tag (dry run skip)
+        if: ${{ inputs.dryRun == false }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+          git tag -a "v${{ steps.ver.outputs.release }}" -m "Release v${{ steps.ver.outputs.release }}"
+          git push origin "v${{ steps.ver.outputs.release }}"
+
+      # Deploy/publish steps intentionally omitted by default; enable in your org
+      # by adding a release profile and secrets for signing + Sonatype.

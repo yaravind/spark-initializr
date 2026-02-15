@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<archetype-descriptor
+  xmlns="http://maven.apache.org/plugins/maven-archetype-plugin/archetype-descriptor/1.2.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/plugins/maven-archetype-plugin/archetype-descriptor/1.2.0 https://maven.apache.org/xsd/archetype-descriptor-1.2.0.xsd"
+  name="spark-multi-runtime-app">
+
+  <fileSets>
+    <fileSet filtered="true" encoding="UTF-8">
+      <includes>
+        <include>pom.xml</include>
+        <include>README.md</include>
+        <include>.gitignore</include>
+      </includes>
+    </fileSet>
+
+    <fileSet filtered="true" packaged="true" encoding="UTF-8">
+      <directory>src/main/scala-common</directory>
+      <includes>
+        <include>**/*.scala</include>
+      </includes>
+    </fileSet>
+
+    <fileSet filtered="true" packaged="true" encoding="UTF-8">
+      <directory>src/main/scala-fabric13</directory>
+      <includes>
+        <include>**/*.scala</include>
+      </includes>
+    </fileSet>
+
+    <fileSet filtered="true" packaged="true" encoding="UTF-8">
+      <directory>src/main/scala-fabric20</directory>
+      <includes>
+        <include>**/*.scala</include>
+      </includes>
+    </fileSet>
+
+    <fileSet filtered="true" packaged="true" encoding="UTF-8">
+      <directory>src/main/scala-databricks154</directory>
+      <includes>
+        <include>**/*.scala</include>
+      </includes>
+    </fileSet>
+
+    <fileSet filtered="true" packaged="true" encoding="UTF-8">
+      <directory>src/main/scala-synapse34</directory>
+      <includes>
+        <include>**/*.scala</include>
+      </includes>
+    </fileSet>
+
+    <fileSet filtered="true" packaged="true" encoding="UTF-8">
+      <directory>src/test/scala</directory>
+      <includes>
+        <include>**/*.scala</include>
+      </includes>
+    </fileSet>
+  </fileSets>
+</archetype-descriptor>
