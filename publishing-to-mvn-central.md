@@ -1,4 +1,4 @@
-# Publishing to Maven Central (Sonatype OSSRH) + GitHub Packages
+# Publishing to Maven Central (Sonatype Central Portal) + GitHub Packages
 
 This document captures the practical setup steps needed to publish this project using the GitHub Actions workflow `.github/workflows/publish.yml`.
 
@@ -6,7 +6,7 @@ This document captures the practical setup steps needed to publish this project 
 
 When you run the **publish** workflow with `dryRun=false`, it deploys to:
 
-1. **Maven Central via Sonatype OSSRH (s01.oss.sonatype.org)**
+1. **Maven Central via Sonatype Central Portal (central.sonatype.com)**
 2. **GitHub Packages**
 
 Maven Central publishing requires **signed artifacts** (PGP/GPG).
@@ -19,7 +19,7 @@ Maven Central publishing requires **signed artifacts** (PGP/GPG).
 brew install gnupg
 ```
 
-- You have (or have created) a **Sonatype OSSRH account** for `https://s01.oss.sonatype.org/`.
+- You have access to **Sonatype Central Portal** at `https://central.sonatype.com/`.
 - Your groupId (`io.github.yaravind`) is approved/verified in Sonatype.
 - You have generated a **PGP key** for signing.
 
@@ -67,13 +67,14 @@ Important:
 
 This full block becomes the GitHub secret `GPG_PRIVATE_KEY`.
 
-## Sonatype (OSSRH) credentials
+## Sonatype Central Portal credentials
 
-You need credentials for `s01.oss.sonatype.org`.
+You need a **user token** from Sonatype Central Portal.
 
-- If you use **Sonatype User Tokens**:
-  - put the token “username” in `OSSRH_USERNAME`
-  - put the token “password” in `OSSRH_PASSWORD`
+In the Central Portal UI, generate a User Token and store:
+
+- the token “username” in `CENTRAL_USERNAME`
+- the token “password” in `CENTRAL_PASSWORD`
 
 ## Configure GitHub repository secrets
 
@@ -83,8 +84,8 @@ Add these in:
 
 ### Required for Maven Central
 
-- `OSSRH_USERNAME`
-- `OSSRH_PASSWORD`
+- `CENTRAL_USERNAME`
+- `CENTRAL_PASSWORD`
 - `GPG_PRIVATE_KEY` (the full armored private key block)
 - `GPG_PASSPHRASE` (the passphrase you set when creating the key)
 
@@ -140,8 +141,8 @@ If you hit this, copy the Actions log snippet and we can adjust the workflow to 
 
 ## Quick checklist
 
-- [ ] OSSRH account works on `s01.oss.sonatype.org`
+- [ ] Central Portal account + user token created on `central.sonatype.com`
 - [ ] GroupId namespace approved for publishing
 - [ ] PGP key generated (ECC sign-only, Curve25519)
-- [ ] Secrets set: `OSSRH_USERNAME`, `OSSRH_PASSWORD`, `GPG_PRIVATE_KEY`, `GPG_PASSPHRASE`
+- [ ] Secrets set: `CENTRAL_USERNAME`, `CENTRAL_PASSWORD`, `GPG_PRIVATE_KEY`, `GPG_PASSPHRASE`
 - [ ] Run `publish` with `dryRun=true` then `dryRun=false`

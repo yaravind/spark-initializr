@@ -1,12 +1,12 @@
 ####################################################
-# Intent: Manually publish artifacts to Maven Central (via Sonatype OSSRH) and GitHub Packages
+# Intent: Manually publish artifacts to Maven Central (via Sonatype Central Portal) and GitHub Packages
 # - Triggers on: workflow_dispatch only
 # - Inputs: dryRun (build-only) and optional publishVersion override
 # - Runs: Maven verify, then (if not dryRun) deploy to both targets
 #
 # Required repo secrets (for Maven Central):
-# - OSSRH_USERNAME: Sonatype username
-# - OSSRH_PASSWORD: Sonatype password/token
+# - CENTRAL_USERNAME: Sonatype Central Portal user token username
+# - CENTRAL_PASSWORD: Sonatype Central Portal user token password
 # - GPG_PRIVATE_KEY: ASCII-armored private key used for signing
 # - GPG_PASSPHRASE: passphrase for the private key
 ####################################################
@@ -34,9 +34,10 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     env:
-      OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-      OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+      CENTRAL_USERNAME: ${{ secrets.CENTRAL_USERNAME }}
+      CENTRAL_PASSWORD: ${{ secrets.CENTRAL_PASSWORD }}
       GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
       - uses: actions/checkout@v4
@@ -47,11 +48,30 @@ jobs:
           distribution: temurin
           java-version: 11
           cache: maven
-          server-id: ossrh
-          server-username: OSSRH_USERNAME
-          server-password: OSSRH_PASSWORD
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
           gpg-passphrase: ${{ secrets.GPG_PASSPHRASE }}
+
+      - name: Configure Maven servers (central + github)
+        run: |
+          mkdir -p ~/.m2
+          cat > ~/.m2/settings.xml <<'XML'
+          <settings xmlns="http://maven.apache.org/SETTINGS/1.2.0"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.2.0 https://maven.apache.org/xsd/settings-1.2.0.xsd">
+            <servers>
+              <server>
+                <id>central</id>
+                <username>${env.CENTRAL_USERNAME}</username>
+                <password>${env.CENTRAL_PASSWORD}</password>
+              </server>
+              <server>
+                <id>github</id>
+                <username>${env.GITHUB_ACTOR}</username>
+                <password>${env.GITHUB_TOKEN}</password>
+              </server>
+            </servers>
+          </settings>
+          XML
 
       - name: Set version (optional)
         if: ${{ inputs.publishVersion != '' }}
@@ -61,15 +81,13 @@ jobs:
       - name: Build (verify)
         run: mvn -B -U clean verify
 
-      - name: Deploy to Sonatype / Maven Central (dryRun skip)
+      - name: Deploy to Maven Central (dryRun skip)
         if: ${{ inputs.dryRun == false }}
         run: |
           mvn -B -U -DskipTests -Prelease -Dgpg.skip=false -Dgpg.passphrase="$GPG_PASSPHRASE" deploy
 
       - name: Deploy to GitHub Packages (dryRun skip)
         if: ${{ inputs.dryRun == false }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           owner=${{ github.repository_owner }}
           repo=${{ github.event.repository.name }}

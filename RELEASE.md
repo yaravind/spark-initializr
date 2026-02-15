@@ -29,7 +29,7 @@ Workflows involved:
 
 - **ci**: runs on PRs and pushes to `main` and executes the runtime matrix integration tests.
 - **release**: manually suggests/sets the next version and (optionally) pushes an annotated `vX.Y.Z` tag.
-- **publish**: manually builds and (optionally) deploys artifacts to both Sonatype (OSSRH) for Maven Central and GitHub Packages.
+- **publish**: manually builds and (optionally) deploys artifacts to Maven Central (via Sonatype Central Portal) and GitHub Packages.
 
 ## Release order
 
@@ -67,7 +67,7 @@ Workflows involved:
    - Inputs:
      - `dryRun: false`
      - `publishVersion: <the same version used for the tag>`
-   - Outcome: deploys to Sonatype (OSSRH) and releases to Maven Central, and also deploys to GitHub Packages.
+   - Outcome: deploys to Maven Central via Sonatype Central Portal, and also deploys to GitHub Packages.
 
 ## Important notes
 
