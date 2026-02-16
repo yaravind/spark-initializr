@@ -28,6 +28,7 @@ mvn -B archetype:generate \
   -DarchetypeGroupId=io.github.yaravind \
   -DarchetypeArtifactId=spark-multi-runtime-archetype \
   -DarchetypeVersion=1.0.0 \
+  -Druntime=fabric13 \
   -DgroupId=com.example \
   -DartifactId=my-spark-app \
   -Dversion=0.1.0-SNAPSHOT \
@@ -91,6 +92,7 @@ mvn -B archetype:generate \
   -DarchetypeGroupId=io.github.yaravind \
   -DarchetypeArtifactId=spark-multi-runtime-archetype \
   -DarchetypeVersion=1.0.0 \
+  -Druntime=fabric13 \
   -DgroupId=com.example \
   -DartifactId=my-spark-app \
   -Dversion=0.1.0-SNAPSHOT \

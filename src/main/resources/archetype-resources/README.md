@@ -4,7 +4,10 @@ Generated Spark + Delta template that can be built against multiple runtimes.
 
 ## Build / test
 
-Select a runtime with `-Druntime=...`.
+This template uses a `runtime` property to select the target runtime.
+
+- Set the default at generation time with `-Druntime=...`.
+- Override at build time with `mvn -Druntime=...`.
 
 - `fabric13` (Spark 3.5.5 / Delta 3.2.0 / Scala 2.12.18 / Java 11)
 - `fabric20` (Spark 4.0.0 / Delta 4.0.0 / Scala 2.13.16 / Java 21)

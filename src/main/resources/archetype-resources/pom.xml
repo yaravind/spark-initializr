@@ -20,7 +20,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
     <!-- Default runtime; override with -Druntime=... -->
-    <runtime>fabric13</runtime>
+    <runtime>${runtime}</runtime>
 
     <!-- Populated by runtime profiles -->
     <spark.version></spark.version>
