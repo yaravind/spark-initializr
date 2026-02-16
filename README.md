@@ -48,7 +48,7 @@ Override the runtime at build time (without regenerating):
 mvn -B -Druntime=fabric20 test
 ```
 
-### Option 2 (clone + install locally): Build and install locally
+### Option 2 (Advanced): Build and install locally
 
 Build/install the archetype locally.
 
