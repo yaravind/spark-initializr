@@ -95,16 +95,55 @@ Path: GitHub repo → Settings → Secrets and variables → Actions → New rep
 
 Maven Central validates your `.asc` signatures by looking up your **public** key on supported PGP keyservers.
 
-Export your public key:
+### Export your public key
+
+First, find your key fingerprint/key id:
+
+```bash
+gpg --list-secret-keys --keyid-format=long
+gpg --fingerprint --keyid-format=long
+```
+
+Then export your public key (ASCII armored):
 
 ```bash
 gpg --armor --export <KEYID>
 ```
 
-Then upload it to a supported keyserver (for example):
+To create an uploadable file (recommended):
 
-- `https://keys.openpgp.org/` (often requires email verification)
-- `https://keyserver.ubuntu.com/`
+```bash
+gpg --armor --export <KEYID> > publickey.asc
+```
+
+The `publickey.asc` file is what you upload.
+
+### Upload to a supported keyserver
+
+#### Option A: Upload via website
+
+- Go to `https://keys.openpgp.org/`
+- Upload `publickey.asc`
+- Complete any email verification steps (keys.openpgp.org often requires this before the key becomes searchable)
+
+#### Option B: Upload via CLI
+
+Send the key to a keyserver:
+
+```bash
+gpg --keyserver hkps://keys.openpgp.org --send-keys <KEYID>
+```
+
+Or:
+
+```bash
+gpg --keyserver hkps://keyserver.ubuntu.com --send-keys <KEYID>
+```
+
+Notes:
+
+- Sonatype must be able to retrieve the public key by fingerprint; use the same key that signs releases.
+- Propagation can take a bit; if Central still can’t find the key, wait and retry.
 
 After uploading, wait for propagation and retry the `publish` workflow.
 
@@ -163,5 +202,6 @@ If you hit this, copy the Actions log snippet and we can adjust the workflow to 
 - [ ] Central Portal account + user token created on `central.sonatype.com`
 - [ ] GroupId namespace approved for publishing
 - [ ] PGP key generated (ECC sign-only, Curve25519)
-- [ ] Secrets set: `CENTRAL_USERNAME`, `CENTRAL_PASSWORD`, `GPG_PRIVATE_KEY`, `GPG_PASSPHRASE`
+- [ ] Public key uploaded to a supported keyserver (and searchable)
+- [ ] Secrets set: `OSSRH_USERNAME`, `OSSRH_PASSWORD`, `GPG_PRIVATE_KEY`, `GPG_PASSPHRASE`
 - [ ] Run `publish` with `dryRun=true` then `dryRun=false`
