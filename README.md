@@ -50,7 +50,14 @@ mvn -B -Druntime=fabric20 test
 
 ### Option 2 (Stretch): Build and install locally
 
-Build/install the archetype locally (useful for development/unreleased changes):
+Build/install the archetype locally.
+
+Use this option when:
+
+- you are developing/modifying the archetype itself
+- you need an unreleased change (not yet published to Maven Central)
+- you are iterating quickly on templates and want to test immediately
+- you are offline or Maven Central access is restricted
 
 ```bash
 mvn -B -U clean verify
@@ -112,6 +119,13 @@ cd my-spark-app
 ```
 
 ### Option 2 (Stretch): Clone and install the archetype locally
+
+Use this option when:
+
+- you are developing/modifying the archetype itself
+- you need an unreleased change (not yet published to Maven Central)
+- you are iterating quickly on templates and want to test immediately
+- you are offline or Maven Central access is restricted
 
 Clone this repo and install it to your local Maven repository:
 
