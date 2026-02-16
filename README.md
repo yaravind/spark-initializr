@@ -3,7 +3,7 @@
 Maven archetype that generates a minimal Spark + Delta app template compatible with:
 
 | Runtime | Spark Version | Delta Version | Scala Version | JDK Version |
-|---|---:|---:|---:|---:|
+| --- | ---: | ---: | ---: | ---: |
 | Microsoft Fabric Runtime 1.3 | 3.5.x | 3.2.x | 2.12 | 11 |
 | Microsoft Fabric Runtime 2.0 | 4.0.x | 4.0.x | 2.13 | 21 |
 | Databricks Runtime 18.0 | 4.0.0 | 4.0.1 | 2.13 | 21 |
@@ -15,7 +15,35 @@ See [RELEASE.md](RELEASE.md) for the official release workflow order and flow di
 
 ## Quick start
 
-Build the archetype:
+### Option 1 (Preferred): Generate from Maven Central
+
+The archetype is published to Maven Central:
+
+- <https://central.sonatype.com/artifact/io.github.yaravind/spark-multi-runtime-archetype/overview>
+
+Generate a project:
+
+```bash
+mvn -B archetype:generate \
+  -DarchetypeGroupId=io.github.yaravind \
+  -DarchetypeArtifactId=spark-multi-runtime-archetype \
+  -DarchetypeVersion=1.0.0 \
+  -DgroupId=com.example \
+  -DartifactId=my-spark-app \
+  -Dversion=0.1.0-SNAPSHOT \
+  -Dpackage=com.example.app
+```
+
+Build for a target runtime:
+
+```bash
+cd my-spark-app
+mvn -B -Druntime=fabric13 test
+```
+
+### Option 2 (Stretch): Build and install locally
+
+Build/install the archetype locally (useful for development/unreleased changes):
 
 ```bash
 mvn -B -U clean verify
@@ -54,9 +82,30 @@ Supported values for `runtime`: `fabric13`, `fabric20`, `databricks180`, `synaps
   - `databricks180`: Java 21+
   - `synapse34`: Java 11+
 
-### 1) Install the archetype locally (one-time)
+### Option 1 (Preferred): Use the published archetype from Maven Central
 
-Until the archetype is published to a remote Maven repository, install it to your local Maven repository:
+From any folder, generate a new project:
+
+```bash
+mvn -B archetype:generate \
+  -DarchetypeGroupId=io.github.yaravind \
+  -DarchetypeArtifactId=spark-multi-runtime-archetype \
+  -DarchetypeVersion=1.0.0 \
+  -DgroupId=com.example \
+  -DartifactId=my-spark-app \
+  -Dversion=0.1.0-SNAPSHOT \
+  -Dpackage=com.example.app
+```
+
+Then:
+
+```bash
+cd my-spark-app
+```
+
+### Option 2 (Stretch): Clone and install the archetype locally
+
+Clone this repo and install it to your local Maven repository:
 
 ```bash
 git clone https://github.com/yaravind/spark-multi-runtime-archetype.git
@@ -64,9 +113,7 @@ cd spark-multi-runtime-archetype
 mvn -B -U clean install
 ```
 
-### 2) Generate a new project
-
-From any folder, run:
+Then, from any folder, generate a new project (using the locally installed version):
 
 ```bash
 mvn -B archetype:generate \
@@ -85,7 +132,7 @@ Then:
 cd my-spark-app
 ```
 
-### 3) Build / test for a target runtime
+### Build / test for a target runtime
 
 The generated app contains:
 
