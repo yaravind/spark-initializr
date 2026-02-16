@@ -35,11 +35,17 @@ mvn -B archetype:generate \
   -Dpackage=com.example.app
 ```
 
-Build for a target runtime:
+Build using the default runtime you selected during generation:
 
 ```bash
 cd my-spark-app
-mvn -B -Druntime=fabric13 test
+mvn -B test
+```
+
+Override the runtime at build time (without regenerating):
+
+```bash
+mvn -B -Druntime=fabric20 test
 ```
 
 ### Option 2 (Stretch): Build and install locally
@@ -63,7 +69,7 @@ mvn -B archetype:generate \
   -Dpackage=com.example.app
 ```
 
-Build for a target runtime:
+Build using the default runtime configured in the generated project:
 
 ```bash
 cd my-spark-app
