@@ -48,7 +48,7 @@ Override the runtime at build time (without regenerating):
 mvn -B -Druntime=fabric20 test
 ```
 
-### Option 2 (Stretch): Build and install locally
+### Option 2 (clone + install locally): Build and install locally
 
 Build/install the archetype locally.
 
@@ -118,7 +118,7 @@ Then:
 cd my-spark-app
 ```
 
-### Option 2 (Stretch): Clone and install the archetype locally
+### Option 2 (clone + install locally): Clone and install the archetype locally
 
 Use this option when:
 
