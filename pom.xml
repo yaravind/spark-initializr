@@ -5,19 +5,19 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>io.github.yaravind</groupId>
-  <artifactId>spark-multi-runtime-archetype</artifactId>
+  <artifactId>spark-initializr</artifactId>
   <version>0.1.0-SNAPSHOT</version>
   <packaging>maven-archetype</packaging>
 
-  <name>spark-multi-runtime-archetype</name>
+  <name>spark-initializr</name>
   <description>Maven archetype for Spark apps targeting Fabric/Databricks/Synapse runtimes</description>
 
-  <url>https://github.com/yaravind/spark-multi-runtime-archetype</url>
+  <url>https://www.initializr.app/</url>
 
   <scm>
-    <url>https://github.com/yaravind/spark-multi-runtime-archetype</url>
-    <connection>scm:git:https://github.com/yaravind/spark-multi-runtime-archetype.git</connection>
-    <developerConnection>scm:git:git@github.com:yaravind/spark-multi-runtime-archetype.git</developerConnection>
+    <url>https://github.com/yaravind/spark-initializr</url>
+    <connection>scm:git:https://github.com/yaravind/spark-initializr.git</connection>
+    <developerConnection>scm:git:git@github.com:yaravind/spark-initializr.git</developerConnection>
     <tag>HEAD</tag>
   </scm>
 

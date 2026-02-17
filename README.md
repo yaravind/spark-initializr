@@ -1,4 +1,6 @@
-# spark-multi-runtime-archetype
+# spark-initializr
+
+Website: <https://www.initializr.app/>
 
 Maven archetype that generates a minimal Spark + Delta app template compatible with:
 
@@ -19,14 +21,14 @@ See [RELEASE.md](RELEASE.md) for the official release workflow order and flow di
 
 The archetype is published to Maven Central:
 
-- <https://central.sonatype.com/artifact/io.github.yaravind/spark-multi-runtime-archetype/overview>
+- <https://central.sonatype.com/artifact/io.github.yaravind/spark-initializr/overview>
 
 Generate a project:
 
 ```bash
 mvn -B archetype:generate \
   -DarchetypeGroupId=io.github.yaravind \
-  -DarchetypeArtifactId=spark-multi-runtime-archetype \
+  -DarchetypeArtifactId=spark-initializr \
   -DarchetypeVersion=1.0.0 \
   -Druntime=fabric13 \
   -DgroupId=com.example \
@@ -68,7 +70,7 @@ Generate a project:
 ```bash
 mvn -B archetype:generate \
   -DarchetypeGroupId=io.github.yaravind \
-  -DarchetypeArtifactId=spark-multi-runtime-archetype \
+  -DarchetypeArtifactId=spark-initializr \
   -DarchetypeVersion=0.1.0-SNAPSHOT \
   -DgroupId=com.example \
   -DartifactId=my-spark-app \
@@ -103,7 +105,7 @@ From any folder, generate a new project:
 ```bash
 mvn -B archetype:generate \
   -DarchetypeGroupId=io.github.yaravind \
-  -DarchetypeArtifactId=spark-multi-runtime-archetype \
+  -DarchetypeArtifactId=spark-initializr \
   -DarchetypeVersion=1.0.0 \
   -Druntime=fabric13 \
   -DgroupId=com.example \
@@ -130,8 +132,8 @@ Use this option when:
 Clone this repo and install it to your local Maven repository:
 
 ```bash
-git clone https://github.com/yaravind/spark-multi-runtime-archetype.git
-cd spark-multi-runtime-archetype
+git clone https://github.com/yaravind/spark-initializr.git
+cd spark-initializr
 mvn -B -U clean install
 ```
 
@@ -140,7 +142,7 @@ Then, from any folder, generate a new project (using the locally installed versi
 ```bash
 mvn -B archetype:generate \
   -DarchetypeGroupId=io.github.yaravind \
-  -DarchetypeArtifactId=spark-multi-runtime-archetype \
+  -DarchetypeArtifactId=spark-initializr \
   -DarchetypeVersion=0.1.0-SNAPSHOT \
   -DgroupId=com.example \
   -DartifactId=my-spark-app \

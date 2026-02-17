@@ -30,7 +30,7 @@ Read this blog to understand the problem statement: https://medium.com/@yaravind
 
 ## Task
 
-This git repository is just the starting point. I want this project to be as popular as spring initializr (https://start.spring.io/). Suggest a better catchy name for this project instead of "spark-multi-runtime-archetype". Think deeply and help create the plan. 
+This git repository is just the starting point. I want this project to be as popular as spring initializr (https://start.spring.io/). Suggest a better catchy name for this project instead of "spark-initializr". Think deeply and help create the plan.
 
 Include name candidates, Unique Value Proposition (UVP), differentiation, MVP feature set, GTM plan that helps data and software engineers jumpstart building data pipelines in local development environment.
 
