@@ -13,7 +13,7 @@ Act as a brand creator to help launch a new product. Your target audience is dat
 
 Currently, due to proliferation of notebooks, engineers lack clear guidance on how to jumpstart local Spark application development using an IDE. I have written a blog about this on medium. The product is a tool that generates boilerplate code and project structure for Spark-based data pipelines, supporting multiple runtimes (PySpark, Scala, Java) and platforms (Databricks, Synapse, Fabric). The goal is to help engineers quickly jumpstart their projects with best practices and a standardized setup, similar to how Spring Initializr helps Java developers start new projects.
 
-Read this blog to understand the problem statement: https://medium.com/@yaravind/beyond-the-notebook-embracing-engineering-rigor-in-spark-development-beb7134652e8
+Read this blog to understand the problem statement: https://medium.com/@yaravind/beyond-the-notebook-embracing-engineering-rigor-in-spark-development-beb7134652e8?source=friends_link&sk=af3be9accce48dfc00402e4c0f2404b3
 
 
 ## Audience Demographics
@@ -47,6 +47,7 @@ Suggest success metrics to track the success of the product launch and adoption.
 ## Constraints
 
 - Avoid Databricks/Fabric/Synapse in the name to ensure neutrality and broader appeal across platforms.
+- I have already secured the domain `initializr.app` for the product, so the name should ideally be compatible with this domain.
 - OSS only.
 - NO IDE plugins at launch.
 

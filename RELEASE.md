@@ -75,4 +75,3 @@ Workflows involved:
 - If you publish without `publishVersion`, the workflow deploys whatever version is currently in `pom.xml` (often `*-SNAPSHOT`). For an official release, set `publishVersion` to match the `vX.Y.Z` tag.
 - Maven Central validates signatures using your **public PGP key**; publish your public key to a supported keyserver before the first release (see `publishing-to-mvn-central.md`).
 - If a run fails, open the run logs in Actions and fix the repo, then re-run starting from **ci**.
-
