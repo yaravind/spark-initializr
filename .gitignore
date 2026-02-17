@@ -10,3 +10,4 @@
 
 # Temporary local downloads (GitHub Actions logs)
 /.tmp-gh-logs/
+/.metals/
