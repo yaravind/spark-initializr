@@ -15,6 +15,10 @@ Maven archetype that generates a minimal Spark + Delta app template compatible w
 
 See [RELEASE.md](RELEASE.md) for the official release workflow order and flow diagram.
 
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for development notes, archetype integration tests (`src/it/**`), and how to add a new runtime.
+
 ## Quick start
 
 ### Option 1 (Preferred): Generate from Maven Central
