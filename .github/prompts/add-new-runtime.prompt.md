@@ -84,10 +84,8 @@ Copy from an existing runtime folder (pick one with the closest required Java), 
 - `invoker.properties`:
   - keep `invoker.goals = validate`
 - `postbuild.groovy`:
-  - ensure it reads `runtime.properties` and runs:
-    - archetype install into a test-local repo
-    - `maven-archetype-plugin:generate`
-    - `mvn -Druntime=<runtimeId> test` in the generated project
+  - keep it as a thin wrapper that evaluates the shared harness: `src/it/postbuild.shared.groovy`.
+  - do not duplicate the full install/generate/test logic per runtime.
   - keep using `src/it/mvn-settings.xml`.
 
 ### 4) Update top-level docs
@@ -106,7 +104,7 @@ Run:
 mvn -B -U clean verify
 ```
 
-If the current JDK is too low for the runtime, the IT should self-skip (consistent with existing `postbuild.groovy`).
+If the current JDK is too low for the runtime, the IT should self-skip (this behavior is implemented in `src/it/postbuild.shared.groovy`).
 
 ## Deliverables (must be present in the PR)
 

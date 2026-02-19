@@ -19,9 +19,9 @@ Purpose:
 
 How it’s used here:
 
-| Step # | Step details | Methods in `postbuild.groovy` |
+| Step # | Step details | Methods in `postbuild.shared.groovy` |
 | ---: | --- | --- |
-| 1 | Maven Invoker discovers `src/it/**` and runs during the `verify` phase (configured in the root `pom.xml`). | N/A (this is `pom.xml` / Invoker configuration, not `postbuild.groovy`) |
+| 1 | Maven Invoker discovers `src/it/**` and runs during the `verify` phase (configured in the root `pom.xml`). | N/A (this is `pom.xml` / Invoker configuration, not `postbuild.shared.groovy`) |
 | 2 | Read `runtime.properties` to get `runtime=<id>` and `requiredJava=<major>`. | Inline script logic (loads `Properties`); no helper method |
 | 3 | Skip the IT early if the current JDK is below `requiredJava`. | `parseJavaSpecVersion(...)` |
 | 4 | Install the just-built archetype artifact into a test-local Maven repo (isolated via `-Dmaven.repo.local=...` and `src/it/mvn-settings.xml`). | `runCmd(...)` (runs `maven-install-plugin:install-file`) |
@@ -36,15 +36,18 @@ Each runtime folder (example: `src/it/fabric13/`) typically contains:
   - Usually sets `invoker.goals = validate`.
   - The real work happens in the post-build hook.
 - `postbuild.groovy`
-  - Installs the just-built archetype JAR into a **test-local** Maven repo.
-  - Generates a sample project using `maven-archetype-plugin:generate`.
-  - Runs `mvn -Druntime=<runtime> test` in the generated project.
-  - Skips the test early if the running JDK is below the runtime’s required version.
+  - Thin wrapper that delegates to the shared implementation in `src/it/postbuild.shared.groovy`.
+  - This is intentionally small to keep all IT behavior consistent across runtimes.
 - `runtime.properties`
   - Defines `runtime=<id>` and `requiredJava=<major>`.
 - `mvn-settings.xml` (shared at `src/it/mvn-settings.xml`)
   - A **Central-only** Maven settings file used by ITs.
   - Prevents user-level `~/.m2/settings.xml` mirrors/proxies from breaking ITs (common in corporate environments).
+
+Shared harness file:
+
+- `src/it/postbuild.shared.groovy`
+  - Implements the common Invoker post-build flow (JDK gate, install archetype to a test-local repo, generate a sample app, run `mvn -Druntime=... test`).
 
 ### Maven Invoker Plugin
 
@@ -89,24 +92,29 @@ A “runtime” here means: a set of Spark/Delta/Scala/JDK baselines + a Maven p
 Checklist:
 
 1. Add a runtime profile to the generated project template POM
+
    - Edit `src/main/resources/archetype-resources/pom.xml`.
    - Add a new `<profile>` with:
      - activation via `-Druntime=<yourRuntimeId>`
      - properties: `spark.version`, `delta.version`, `delta.artifactId`, `scala.binary.version`, `scala.version`, `maven.compiler.release`, `required.java.version`
      - a `build-helper-maven-plugin` execution that adds `src/main/scala-<yourRuntimeId>` as a source root.
 
-2. Add runtime-specific sources
-   - Add `src/main/resources/archetype-resources/src/main/scala-<yourRuntimeId>/...`.
-   - Keep shared code in `src/main/resources/archetype-resources/src/main/scala-common/`.
+1. Add runtime-specific sources
 
-3. Add an integration test case under `src/it/`
+    - Add `src/main/resources/archetype-resources/src/main/scala-<yourRuntimeId>/...`.
+    - Keep shared code in `src/main/resources/archetype-resources/src/main/scala-common/`.
+
+1. Add an integration test case under `src/it/`
+
    - Create a folder: `src/it/<yourRuntimeId>/`.
-   - Copy an existing runtime’s `postbuild.groovy` and update `src/it/<yourRuntimeId>/runtime.properties`:
+   - Copy an existing runtime’s `postbuild.groovy` wrapper (or create a similar wrapper that evaluates `src/it/postbuild.shared.groovy`).
+   - Update `src/it/<yourRuntimeId>/runtime.properties`:
      - `runtime=<yourRuntimeId>`
      - `requiredJava=<major>`
    - Keep `invoker.properties` with `invoker.goals = validate`.
 
-4. Document the runtime
-   - Update the runtime table and supported `runtime` values in `README.md`.
+1. Document the runtime
+
+    - Update the runtime table and supported `runtime` values in `README.md`.
 
 That’s it — `mvn -B -U clean verify` should now exercise your new runtime end-to-end.

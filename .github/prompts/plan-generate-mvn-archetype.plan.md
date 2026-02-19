@@ -74,7 +74,7 @@ This still satisfies the parameterization requirement, keeps the generated proje
 
 7. Add integration tests that generate and build for each runtime.
    - Use Maven Invoker-based integration tests (`src/it/**`) to prove the archetype works end-to-end.
-   - Contributor details (test structure, `postbuild.groovy`, `mvn-settings.xml`, and adding new runtime cases): see `CONTRIBUTING.md`.
+   - Contributor details (test structure, `postbuild.shared.groovy` + per-runtime wrapper `postbuild.groovy`, `mvn-settings.xml`, and adding new runtime cases): see `CONTRIBUTING.md`.
    - CI coverage:
      - Include Fabric 1.3 on JDK 11 and Fabric 2.0 on JDK 21.
      - Add Databricks and Synapse once their canonical JDK baselines are confirmed.
